@@ -4,12 +4,15 @@ import type { NextRequest } from 'next/server';
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
+  console.log('token', token);
   const { pathname } = request.nextUrl;
 
   // Define protected routes
-  const isProtectedRoute = pathname.startsWith('/dashboard') || 
+  const isProtectedRoute = 
+  pathname.startsWith('/dashboard') || 
                           pathname.startsWith('/loans') || 
                           pathname.startsWith('/users') ||
+                          pathname.startsWith('/staff') ||
                           pathname.startsWith('/reports') ||
                           pathname.startsWith('/journal') ||
                           pathname.startsWith('/sms') ||

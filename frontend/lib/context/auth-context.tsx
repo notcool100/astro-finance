@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@/lib/api/types';
 import { authService } from '@/lib/api/services';
+import Cookies from 'js-cookie';
 
 interface AuthContextType {
   user: User | null;
@@ -21,14 +22,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Check if user is logged in
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
         if (token) {
           const { data } = await authService.getCurrentUser();
           setUser(data);
         }
       } catch (error) {
         console.error('Authentication error:', error);
-        localStorage.removeItem('token');
+        Cookies.remove('token');
       } finally {
         setIsLoading(false);
       }
@@ -40,9 +41,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const { data } = await authService.login({ email, password });
-      localStorage.setItem('token', data.token);
-      setUser(data.user);
+      const  loginresponse = await authService.login({ email, password });
+      Cookies.set('token', loginresponse.data.token, { expires: 7 });
+      setUser(loginresponse.data.user);
     } finally {
       setIsLoading(false);
     }
