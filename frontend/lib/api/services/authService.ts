@@ -14,6 +14,7 @@ export const authService = {
    * Get current user profile
    */
   getCurrentUser: async (): Promise<ApiResponse<User>> => {
+    console.log('getCurrentUser');
     const response = await api.get<ApiResponse<User>>('/auth/me');
     return response.data;
   },

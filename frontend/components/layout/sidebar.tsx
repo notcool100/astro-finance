@@ -39,6 +39,11 @@ const navItems = [
     icon: Users,
   },
   {
+    title: "Staff Management",
+    href: "/staff",
+    icon: Users,
+  },
+  {
     title: "Interest Management",
     href: "/interest",
     icon: Percent,

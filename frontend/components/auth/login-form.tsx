@@ -41,6 +41,7 @@ export function LoginForm() {
 
     try {
       await login(values.email, values.password)
+      console.log("redirecting...")
       router.push("/dashboard")
     } catch (error) {
       toast({
