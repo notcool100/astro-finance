@@ -41,9 +41,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const  loginresponse = await authService.login({ email, password });
-      Cookies.set('token', loginresponse.data.token, { expires: 7 });
-      setUser(loginresponse.data.user);
+      const loginresponse = await authService.login({ email, password });
+      console.log('loginresponse', loginresponse);
+  
+      // Set cookie with proper path
+      Cookies.set('token', loginresponse.data.token, {
+        expires: 1, // 1 day
+        path: '/',  // crucial so it's accessible site-wide
+      });
+  
+      // Force full reload so cookie is sent with request
+      window.location.href = '/dashboard';
     } finally {
       setIsLoading(false);
     }

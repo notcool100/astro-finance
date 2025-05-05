@@ -3,8 +3,9 @@ import type { NextRequest } from 'next/server';
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('token')?.value;
-  console.log('token', token);
+  console.log('All cookies:', request.cookies); // Debugging step
+  const token = request.cookies.get('token')?.value ||  request.cookies.get('next-auth.session-token')?.value;
+  console.log('Token from middleware:', token);
   const { pathname } = request.nextUrl;
 
   // Define protected routes
