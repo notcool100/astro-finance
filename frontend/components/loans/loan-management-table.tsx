@@ -109,7 +109,9 @@ export function LoanManagementTable({ loanType, addLoanOpen = false, setAddLoanO
       setIsLoadingSchedule(false)
     }
   }
-
+  const filteredLoans = loanType
+  ? loans.filter((loan) => loan.loanType === loanType)
+  : loans;
   // Form submission handler for editing loans
   const { handleSubmit: handleEditSubmit, isSubmitting: isEditSubmitting } = useFormSubmit<Partial<Loan>, Loan>(
     async (data) => {

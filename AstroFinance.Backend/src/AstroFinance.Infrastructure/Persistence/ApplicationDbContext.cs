@@ -6,6 +6,7 @@ using AstroFinance.Domain.Customers.Entities;
 using AstroFinance.Domain.Loans.Entities;
 using AstroFinance.Domain.Sms.Entities;
 using AstroFinance.Domain.Transactions.Entities;
+using AstroFinance.Domain.DailyTransactions.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -41,9 +42,11 @@ namespace AstroFinance.Infrastructure.Persistence
 
         // Transactions
         public DbSet<Transaction> Transactions => Set<Transaction>();
-        public DbSet<JournalEntry> JournalEntries => Set<JournalEntry>();
-        public DbSet<JournalEntryDetail> JournalEntryDetails => Set<JournalEntryDetail>();
-        public DbSet<ChartOfAccount> ChartOfAccounts => Set<ChartOfAccount>();
+        public DbSet<DailyTransaction> DailyTransactions => Set<DailyTransaction>();
+
+        public DbSet<AstroFinance.Domain.Transactions.Entities.JournalEntry> JournalEntries => Set<AstroFinance.Domain.Transactions.Entities.JournalEntry>();
+        public DbSet<AstroFinance.Domain.Transactions.Entities.JournalEntryDetail> JournalEntryDetails => Set<AstroFinance.Domain.Transactions.Entities.JournalEntryDetail>();
+        public DbSet<AstroFinance.Domain.Transactions.Entities.ChartOfAccount> ChartOfAccounts => Set<AstroFinance.Domain.Transactions.Entities.ChartOfAccount>();
 
         // SMS
         public DbSet<SmsTemplate> SmsTemplates => Set<SmsTemplate>();
@@ -142,7 +145,7 @@ namespace AstroFinance.Infrastructure.Persistence
             });
 
             // Configure the JournalEntry entity
-            builder.Entity<JournalEntry>(entity =>
+            builder.Entity<AstroFinance.Domain.Transactions.Entities.JournalEntry>(entity =>
             {
                 entity.ToTable("journal_entries");
                 
@@ -150,7 +153,7 @@ namespace AstroFinance.Infrastructure.Persistence
             });
 
             // Configure the JournalEntryDetail entity
-            builder.Entity<JournalEntryDetail>(entity =>
+            builder.Entity<AstroFinance.Domain.Transactions.Entities.JournalEntryDetail>(entity =>
             {
                 entity.ToTable("journal_entry_details");
                 
@@ -158,7 +161,7 @@ namespace AstroFinance.Infrastructure.Persistence
             });
 
             // Configure the ChartOfAccount entity
-            builder.Entity<ChartOfAccount>(entity =>
+            builder.Entity<AstroFinance.Domain.Transactions.Entities.ChartOfAccount>(entity =>
             {
                 entity.ToTable("chart_of_accounts");
                 

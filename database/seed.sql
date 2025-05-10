@@ -650,6 +650,68 @@ INSERT INTO transactions (
     '00000000-0000-0000-0000-000000000002'
 );
 
+-- Insert daily transactions
+INSERT INTO daily_transactions (
+    id,
+    customer_id,
+    transaction_type,
+    amount,
+    transaction_date,
+    description,
+    created_by,
+    created_at
+) VALUES
+(
+    '00000000-0000-0000-0000-000000000100',
+    '00000000-0000-0000-0000-000000000020', -- Michael Johnson
+    'Deposit',
+    1000.00,
+    CURRENT_DATE - INTERVAL '1 day',
+    'Customer deposited funds into their account',
+    '00000000-0000-0000-0000-000000000002', -- Created by John Doe
+    CURRENT_TIMESTAMP
+),
+(
+    '00000000-0000-0000-0000-000000000101',
+    '00000000-0000-0000-0000-000000000021', -- Sarah Williams
+    'Withdraw',
+    500.00,
+    CURRENT_DATE - INTERVAL '2 days',
+    'Customer withdrew funds from their account',
+    '00000000-0000-0000-0000-000000000003', -- Created by Jane Smith
+    CURRENT_TIMESTAMP
+),
+(
+    '00000000-0000-0000-0000-000000000102',
+    '00000000-0000-0000-0000-000000000022', -- Robert Brown
+    'Bal Bachant',
+    200.00,
+    CURRENT_DATE - INTERVAL '3 days',
+    'Customer performed a Bal Bachant transaction',
+    '00000000-0000-0000-0000-000000000004', -- Created by Finance Manager
+    CURRENT_TIMESTAMP
+),
+(
+    '00000000-0000-0000-0000-000000000103',
+    '00000000-0000-0000-0000-000000000023', -- Emily Davis
+    'Deposit',
+    1500.00,
+    CURRENT_DATE - INTERVAL '4 days',
+    'Customer deposited funds into their account',
+    '00000000-0000-0000-0000-000000000002', -- Created by John Doe
+    CURRENT_TIMESTAMP
+),
+(
+    '00000000-0000-0000-0000-000000000104',
+    '00000000-0000-0000-0000-000000000024', -- David Miller
+    'Withdraw',
+    300.00,
+    CURRENT_DATE - INTERVAL '5 days',
+    'Customer withdrew funds from their account',
+    '00000000-0000-0000-0000-000000000003', -- Created by Jane Smith
+    CURRENT_TIMESTAMP
+);
+
 -- Insert SMS history records
 INSERT INTO sms_histories (
     id,

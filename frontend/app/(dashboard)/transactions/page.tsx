@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { formatNepaliCurrency } from "@/lib/format"
+import TransactionForm, { NewTransaction } from "@/components/transaction/transaction-form"
 import { ArrowDownLeft, ArrowUpRight, Calendar, Download, Filter, Printer, Search } from "lucide-react"
 
 // Sample transaction data
@@ -104,13 +105,50 @@ const transactionsData = [
 
 export default function TransactionsPage() {
   const [selectedType, setSelectedType] = useState<string | null>(null)
+  const [transactions, setTransactions] = useState(transactionsData)
+  const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false)
 
-  const filteredTransactions = selectedType ? transactionsData.filter((t) => t.type === selectedType) : transactionsData
+  const filteredTransactions = selectedType ? transactions.filter((t) => t.type === selectedType) : transactions
 
   // Calculate totals
-  const totalDeposits = transactionsData.filter((t) => t.type === "deposit").reduce((sum, t) => sum + t.amount, 0)
+  const totalDeposits = transactions.filter((t) => t.type === "deposit").reduce((sum, t) => sum + t.amount, 0)
 
-  const totalWithdrawals = transactionsData.filter((t) => t.type === "withdrawal").reduce((sum, t) => sum + t.amount, 0)
+  const totalWithdrawals = transactions.filter((t) => t.type === "withdrawal").reduce((sum, t) => sum + t.amount, 0)
+
+  function handleNewTransactionClick() {
+    setIsTransactionFormOpen(true)
+  }
+
+  function handleTransactionFormClose() {
+    setIsTransactionFormOpen(false)
+  }
+
+  function handleTransactionSubmit(newTransaction: NewTransaction) {
+    // Add new transaction to the list with generated id, reference, date, time
+    const now = new Date()
+    const id = (transactions.length + 1).toString()
+    const referencePrefix = newTransaction.type === "deposit" ? "DEP" : "WIT"
+    const reference = `${referencePrefix}-${now.getFullYear()}-${id.padStart(3, "0")}`
+    const date = now.toISOString().split("T")[0]
+    const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+
+    const customerName = "Unknown"
+    // For simplicity, we can keep customerName as Unknown or fetch from customers list if needed
+
+    const transaction = {
+      id,
+      clientName: customerName,
+      type: newTransaction.type,
+      amount: newTransaction.amount,
+      accountType: newTransaction.accountType,
+      time,
+      date,
+      reference,
+      notes: newTransaction.notes,
+    }
+    setTransactions([transaction, ...transactions])
+    setIsTransactionFormOpen(false)
+  }
 
   return (
     <div className="space-y-6">
@@ -124,12 +162,13 @@ export default function TransactionsPage() {
             <Calendar className="h-4 w-4 mr-2" />
             Select Date
           </Button>
-          <Button className="bg-emerald-600 hover:bg-emerald-700">
+          <Button className="bg-emerald-600 hover:bg-emerald-700" onClick={handleNewTransactionClick}>
             <ArrowUpRight className="h-4 w-4 mr-2" />
             New Transaction
           </Button>
         </div>
       </div>
+      <TransactionForm open={isTransactionFormOpen} onClose={handleTransactionFormClose} onSubmit={handleTransactionSubmit} />
 
       <div className="grid gap-6 md:grid-cols-3">
         <Card>

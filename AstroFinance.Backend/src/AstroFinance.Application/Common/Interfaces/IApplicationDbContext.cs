@@ -4,6 +4,7 @@ using AstroFinance.Domain.Customers.Entities;
 using AstroFinance.Domain.Loans.Entities;
 using AstroFinance.Domain.Sms.Entities;
 using AstroFinance.Domain.Transactions.Entities;
+using AstroFinance.Domain.DailyTransactions.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,9 +25,10 @@ namespace AstroFinance.Application.Common.Interfaces
 
         // Transactions
         DbSet<Transaction> Transactions { get; }
-        DbSet<JournalEntry> JournalEntries { get; }
-        DbSet<JournalEntryDetail> JournalEntryDetails { get; }
-        DbSet<ChartOfAccount> ChartOfAccounts { get; }
+        DbSet<DailyTransaction> DailyTransactions { get; }
+        DbSet<AstroFinance.Domain.Transactions.Entities.JournalEntry> JournalEntries { get; }
+        DbSet<AstroFinance.Domain.Transactions.Entities.JournalEntryDetail> JournalEntryDetails { get; }
+        DbSet<AstroFinance.Domain.Transactions.Entities.ChartOfAccount> ChartOfAccounts { get; }
 
         // SMS
         DbSet<SmsTemplate> SmsTemplates { get; }
