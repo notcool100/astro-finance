@@ -3,15 +3,16 @@ import {
   ApiResponse, 
   Customer,
   CreateCustomerRequest,
-  PaginatedResponse 
+  PaginatedResponse,
+  CustomersListResponse
 } from '../types';
 
 export const customerService = {
   /**
    * Get all customers with pagination
    */
-  getCustomers: async (page = 1, pageSize = 10): Promise<ApiResponse<PaginatedResponse<Customer>>> => {
-    const response = await api.get<ApiResponse<PaginatedResponse<Customer>>>('/customers', {
+  getCustomers: async (page = 1, pageSize = 10): Promise<ApiResponse<CustomersListResponse<Customer>>> => {
+    const response = await api.get<ApiResponse<CustomersListResponse<Customer>>>('/customers', {
       params: { page, pageSize }
     });
     return response.data;

@@ -14,6 +14,15 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
+// Customers list response type matching backend response
+export interface CustomersListResponse<T> {
+  customers: T[];
+  totalCount: number;
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+}
+
 // Error response from API
 export interface ApiError {
   message: string;
@@ -46,6 +55,8 @@ export interface Customer {
   firstName: string;
   lastName: string;
   email?: string;
+  accountType?: string;
+  status?: string;
   phoneNumber: string;
   address?: string;
   identificationNumber: string;
@@ -58,6 +69,8 @@ export interface Customer {
 export interface CreateCustomerRequest {
   firstName: string;
   lastName: string;
+  accountType?: string;
+  status?: string;
   email?: string;
   phoneNumber: string;
   address?: string;

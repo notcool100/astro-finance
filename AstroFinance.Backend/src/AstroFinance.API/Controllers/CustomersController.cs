@@ -13,6 +13,7 @@ namespace AstroFinance.API.Controllers
     [Authorize]
     public class CustomersController : ApiControllerBase
     {
+
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] GetCustomersListQuery query)
         {

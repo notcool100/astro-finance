@@ -46,10 +46,7 @@ namespace AstroFinance.API.Controllers
         public IActionResult GetCurrentUser()
         {
             // Get the current user from the claims
-            // var userId = User.FindFirst("sub")?.Value;
-            // var email = User.FindFirst("email")?.Value;
-            // var name = User.FindFirst("Name")?.Value;
-            // var role = User.FindFirst("role")?.Value;
+           
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; // OR "sub" if JWT
     var email = User.FindFirst(ClaimTypes.Email)?.Value;
     var name = User.FindFirst(ClaimTypes.Name)?.Value;
