@@ -4,9 +4,10 @@ import { ApiResponse, LoginRequest, LoginResponse, User } from '../types';
 export const authService = {
   /**
    * Login user with email and password
+   * Note: The actual response structure is different from what's defined in types
    */
-  login: async (data: LoginRequest): Promise<ApiResponse<LoginResponse>> => {
-    const response = await api.post<ApiResponse<LoginResponse>>('/auth/login', data);
+  login: async (data: LoginRequest): Promise<any> => {
+    const response = await api.post('/auth/login', data);
     return response.data;
   },
 
@@ -23,8 +24,12 @@ export const authService = {
    * Logout user
    */
   logout: async (): Promise<void> => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
+    try {
+      // Call the backend logout endpoint
+      await api.post('/auth/logout');
+    } catch (error) {
+      console.log('Logout API call failed:', error);
+      throw error; // Propagate the error to be handled by the caller
     }
   }
 };
