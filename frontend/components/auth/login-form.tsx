@@ -40,18 +40,18 @@ export function LoginForm() {
     setIsLoading(true)
 
     try {
+      // Login will handle the redirection in auth-context.tsx
       await login(values.email, values.password)
-      console.log("redirecting...")
-      router.push("/dashboard")
+      console.log("Login function completed")
     } catch (error) {
       toast({
         title: "Login failed",
         description: getErrorMessage(error),
         variant: "destructive",
       })
-    } finally {
       setIsLoading(false)
     }
+    // Note: We don't set isLoading to false on success because the page will redirect
   }
 
   return (

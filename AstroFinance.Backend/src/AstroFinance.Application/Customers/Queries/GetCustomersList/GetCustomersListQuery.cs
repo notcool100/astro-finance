@@ -35,11 +35,11 @@ namespace AstroFinance.Application.Customers.Queries.GetCustomersList
             {
                 var searchTerm = request.SearchTerm.ToLower();
                 query = query.Where(c => 
-                    c.FirstName.ToLower().Contains(searchTerm) ||
-                    c.LastName.ToLower().Contains(searchTerm) ||
-                    c.PhoneNumber.Contains(searchTerm) ||
-                    c.IdentificationNumber.Contains(searchTerm) ||
-                    (c.Email != null && c.Email.ToLower().Contains(searchTerm))
+                    EF.Functions.Like(c.FirstName, $"%{searchTerm}%") ||
+                    EF.Functions.Like(c.LastName, $"%{searchTerm}%") ||
+                    EF.Functions.Like(c.PhoneNumber, $"%{searchTerm}%") ||
+                    EF.Functions.Like(c.IdentificationNumber, $"%{searchTerm}%") ||
+                    (c.Email != null && EF.Functions.Like(c.Email, $"%{searchTerm}%"))
                 );
             }
 
@@ -67,7 +67,7 @@ namespace AstroFinance.Application.Customers.Queries.GetCustomersList
 
             return new CustomersListVm
             {
-                Customers = customers,
+                data = customers,
                 TotalCount = totalCount,
                 PageNumber = request.PageNumber,
                 PageSize = request.PageSize,
@@ -78,7 +78,7 @@ namespace AstroFinance.Application.Customers.Queries.GetCustomersList
 
     public class CustomersListVm
     {
-        public List<CustomerDto> Customers { get; set; } = new List<CustomerDto>();
+        public List<CustomerDto> data { get; set; } = new List<CustomerDto>();
         public int TotalCount { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

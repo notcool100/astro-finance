@@ -15,25 +15,39 @@ export function ProtectedRoute({ children, requiredRoles = [] }: ProtectedRouteP
   const router = useRouter()
 
   useEffect(() => {
-    // If not loading and not authenticated, redirect to login
-    if (!isLoading && !isAuthenticated) {
-      router.push('/login')
-    }
+    // Only perform redirects if not in loading state
+    if (!isLoading) {
+      // If not authenticated, redirect to login
+      if (!isAuthenticated) {
+        console.log('Not authenticated, redirecting to login')
+        router.push('/login')
+        return
+      }
 
-    // If authenticated but doesn't have required role, redirect to dashboard
-    if (
-      !isLoading &&
-      isAuthenticated &&
-      requiredRoles.length > 0 &&
-      user &&
-      !requiredRoles.includes(user.role)
-    ) {
-      router.push('/dashboard')
+      // If authenticated but doesn't have required role, redirect to dashboard
+      if (
+        isAuthenticated &&
+        requiredRoles.length > 0 &&
+        user &&
+        !requiredRoles.includes(user.role)
+      ) {
+        console.log('User does not have required role, redirecting to dashboard')
+        router.push('/dashboard')
+      }
     }
   }, [isLoading, isAuthenticated, router, user, requiredRoles])
 
-  // Show loading state
-  if (isLoading || !isAuthenticated) {
+  // Show loading state while authentication is being checked
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+  
+  // If not authenticated, show loading while redirecting to login
+  if (!isAuthenticated) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />

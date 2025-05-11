@@ -18,9 +18,11 @@ import {
   ChevronRight,
   Menu,
   ArrowUpDown,
+  LogOut,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useAuth } from "@/lib/context/auth-context"
 
 const navItems = [
   {
@@ -84,6 +86,7 @@ export function Sidebar() {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { user, logout } = useAuth()
 
   return (
     <>
@@ -151,10 +154,32 @@ export function Sidebar() {
           <div className={cn("flex items-center gap-2", collapsed && "md:justify-center")}>
             <div className="h-8 w-8 rounded-full bg-muted" />
             <div className={cn("space-y-1", collapsed && "md:hidden")}>
-              <p className="text-sm font-medium leading-none">Admin User</p>
-              <p className="text-xs leading-none text-muted-foreground">admin@example.com</p>
+              <p className="text-sm font-medium leading-none">{user?.firstName} {user?.lastName}</p>
+              <p className="text-xs leading-none text-muted-foreground">{user?.email || 'admin@example.com'}</p>
             </div>
           </div>
+          
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className={cn(
+                    "mt-4 w-full justify-start text-muted-foreground hover:text-foreground",
+                    collapsed && "md:justify-center"
+                  )}
+                  onClick={logout}
+                >
+                  <LogOut className={cn("mr-2 h-4 w-4", collapsed && "md:mr-0")} />
+                  <span className={cn(collapsed && "md:hidden")}>Logout</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right" className={cn("md:hidden", !collapsed && "hidden")}>
+                Logout
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </aside>
     </>
